@@ -1,1 +1,1 @@
-# RestSecureSXP
+# SXP
