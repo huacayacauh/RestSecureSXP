@@ -9,16 +9,15 @@ import java.security.Security;
 import java.math.BigInteger;
 import java.util.Date;
 
-//certificate
-import javax.security.auth.x500.X500Principal;
-import java.security.cert.X509Certificate;
-
 //Création de la pair de clef (à déplacer pour plus de propreté)
 import org.bouncycastle.x509.extension.SubjectKeyIdentifierStructure;
 import org.bouncycastle.x509.X509V3CertificateGenerator;
 import org.bouncycastle.asn1.x509.X509Extensions;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
+//certificate
+import javax.security.auth.x500.X500Principal;
+import java.security.cert.X509Certificate;
 //
 
 import org.eclipse.jetty.server.Server;
