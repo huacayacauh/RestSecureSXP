@@ -127,7 +127,7 @@ public class JettyRestServer implements RestServer{
 																																						
 																																						
 		X509Certificate[] cert_chain = new X509Certificate[1];																		
-		cert_chain[0] = cert_gen.generateX509Certificate(keys.getPrivate(), "BC"); //CA private key (autosigned)		
+		cert_chain[0] = cert_gen.generateX509Certificate(keys.getPrivate(), "BC"); //CA private key (autosigned here)		
 																																						
 		ks.setEntry("SXP",																														
 				new KeyStore.PrivateKeyEntry(keys.getPrivate(), cert_chain),														

@@ -9,6 +9,8 @@ import rest.api.Authentifier;
 import rest.factories.AuthentifierFactory;
 import rest.factories.RestServerFactory;
 
+import crypt.impl.certificate.X509V3Generator;
+
 /**
  * Main class
  * {@link Application} is a singleton
@@ -38,8 +40,17 @@ public class Application {
 	}
 	
 	public void runForTests(int restPort) {
-		//System.out.println("salut !!!!!!!");
-		//java.security.Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+		try
+		{
+			X509V3Generator test = new X509V3Generator();
+			test.setConfigFile("./test.txt");
+			test.initDatas();
+		}		
+		catch( Exception e )
+		{
+			System.out.println(e.toString());
+		}
+
 		Properties p = System.getProperties();
 		p.put("derby.system.home", "./.db-" + restPort + "/");
 		new UserSyncManagerImpl(); //just init the db
