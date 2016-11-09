@@ -20,15 +20,6 @@ public interface RestServer {
 	public void start(int port) throws Exception;
 	
 	/**
-	 * Create and link the proper connector to
-	 * the jetty serveur.
-	 * @author Sébastien Pelletier
-	 * @param protocol Protocol used by the jetty serveur (http, https).
-	 * @param port Port the server will use.
-	 */
-	public void createAndSetConnector(int port, String protocol) throws Exception;
-	
-	/**
 	 * Stop the server.
 	 */
 	public void stop();
