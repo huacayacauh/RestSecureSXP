@@ -37,10 +37,10 @@ public class Items {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String add(Item item, @HeaderParam(Authentifier.PARAM_NAME) String token) {
-		Authentifier auth = Application.getInstance().getAuth();
+		Authentifier auth     = Application.getInstance().getAuth();
 		UserSyncManager users = new UserSyncManagerImpl();
-		User currentUser = users.getUser(auth.getLogin(token), auth.getPassword(token));
-		Manager<Item> em = ManagerFactory.createNetworkResilianceItemManager(Application.getInstance().getPeer(), token);
+		User currentUser      = users.getUser(auth.getLogin(token), auth.getPassword(token));
+		Manager<Item> em      = ManagerFactory.createNetworkResilianceItemManager(Application.getInstance().getPeer(), token);
 		//EntityManager<Item> em = new ItemManager();
 		em.begin();
 		//TODO VALIDATION
