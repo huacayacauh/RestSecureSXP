@@ -1,9 +1,0 @@
-#Comment on new line only.
-#this configuration file containt value for the certificate
-#used by this application.
-
-#Serial Number.
-serialnumber=0123456789
-
-#Algorithm used for siging the certificate.
-signalgorithm=MD5WithRSA
