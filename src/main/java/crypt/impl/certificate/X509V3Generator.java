@@ -24,6 +24,17 @@ import java.io.*;
 
 public class X509V3Generator implements CertificateGenerator
 {
+	/**
+	 * Use this methode tu create an instance of X509V3Genertor.
+	 * @param config_file Name of the file that will be used by the instance.
+	 */
+	static public X509V3Generator getInstance(String config_file) throws Exception
+	{
+		X509V3Generator cert_gen = new X509V3Generator();
+		cert_gen.setConfigFile(config_file);
+		cert_gen.initDatas();
+		return cert_gen;
+	}
 	///////////////////////////// private //////////////////////////////////
 
 	private String config_file;        //Configuration file (certificate datas).
@@ -46,6 +57,30 @@ public class X509V3Generator implements CertificateGenerator
 	////////////////////////////// Public ////////////////////////////////
 	
 	//// Geters&Seters ////
+
+
+	/**
+	 * Initalization of datas from file.
+	 * @author Sébastien Pelletier
+	 */
+	public KeyPair getKeysPair() throws Exception
+	{
+		if( !this.flag )
+		{
+			System.out.println("getKeyPair() used wihout certificate genereated");
+			System.exit(1);
+		}
+		return key_pair;
+	}
+	
+	/**
+	 * Get the Keystore password
+	 * @author Sébastien Pelletier
+	 */
+	public String getKsPassword() throws Exception
+	{
+		return keystore_password;
+	}
 
 	/**
 	 * {@inheritDoc}

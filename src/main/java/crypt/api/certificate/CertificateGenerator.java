@@ -1,6 +1,6 @@
 package crypt.api.certificate;
 
-
+import java.security.KeyPair;
 import java.security.cert.Certificate;
 
 /**
@@ -18,13 +18,13 @@ public interface CertificateGenerator
 	public void setConfigFile(String file) throws Exception;
 
 	/**
-	 * Initalization of datas from file.
+	 * Get the keyPair used for the certificate.
 	 * @author Sébastien Pelletier
 	 */
 	public void initDatas() throws Exception;
 	
 	/**
-	 * Create the certificate.
+	 * Create the certificate and keys for it.
 	 * @author Sébastien Pelletier
 	 */
 	public Certificate CreateCertificate() throws Exception;

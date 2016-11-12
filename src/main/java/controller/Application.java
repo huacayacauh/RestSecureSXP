@@ -42,12 +42,12 @@ public class Application {
 	public void runForTests(int restPort) {
 		try
 		{
-			X509V3Generator cert_gen = new X509V3Generator();
-			cert_gen.setConfigFile("./certConfig.conf");
-			cert_gen.initDatas();
+			/*X509V3Generator cert_gen = X509V3Generator.getInstance("certConfig.conf");
+			//cert_gen.setConfigFile("./certConfig.conf");
+			//cert_gen.initDatas();
 			cert_gen.CreateCertificate();
-			//System.out.println("ici : " + cert_gen.CreateChainCertificate()[0] );
-			cert_gen.StoreInKeystore("test.jks");
+			System.out.println("ici : " + cert_gen.CreateChainCertificate()[0] );
+			cert_gen.StoreInKeystore("test.jks");*/
 		}		
 		catch( Exception e )
 		{
