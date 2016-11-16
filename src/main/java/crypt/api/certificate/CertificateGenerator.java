@@ -39,7 +39,7 @@ public interface CertificateGenerator
 	 * Create the certificate and keys for it.
 	 * @author Sébastien Pelletier
 	 */
-	public Certificate CreateCertificate() throws Exception;
+	public Certificate CreateCertificate(String signature) throws Exception;
 
 	/**
 	 * Create a certificate chain of one certificate.
