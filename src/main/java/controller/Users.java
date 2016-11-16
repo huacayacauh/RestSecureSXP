@@ -33,12 +33,13 @@ import rest.api.ServletPath;
 @Path("/")
 public class Users {
 
-	@GET
+	@POST
 	@Path("/login")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String login(
-			@QueryParam("login") String login,
-			@QueryParam("password") String password) {
+	public String login(String jsonCredentials) {
+		String[] credentials = jsonCredentials.split("&");
+		String login = credentials[0].split("=")[1];
+		String password = credentials[1].split("=")[1];
 		
 		Authentifier auth = Application.getInstance().getAuth();
 		UserSyncManager em = new UserSyncManagerImpl();
@@ -81,12 +82,13 @@ public class Users {
 		return null;
 	}
 	
-	@GET
+	@POST
 	@Path("/subscribe")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String subscribe(
-			@QueryParam("login") String login,
-			@QueryParam("password") String password) {
+	public String subscribe(String jsonCredentials) {
+		String[] credentials = jsonCredentials.split("&");
+		String login = credentials[0].split("=")[1];
+		String password = credentials[1].split("=")[1];
 		
 		User u = new User();
 		u.setNick(login);
