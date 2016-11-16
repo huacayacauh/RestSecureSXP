@@ -46,12 +46,13 @@ import rest.api.RestServer;
 import rest.api.ServletPath;
 
 import crypt.impl.certificate.X509V3Generator;
+import crypt.api.certificate.CertificateGenerator;
 
 public class JettyRestServer implements RestServer{
 	
 	private ServletContextHandler context;
 	private Server server;
-	private X509V3Generator cert_gen;
+	private CertificateGenerator cert_gen;
 	
 	/**
 	 * {@inheritDoc}

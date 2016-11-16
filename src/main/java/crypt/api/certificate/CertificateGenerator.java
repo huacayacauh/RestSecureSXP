@@ -11,14 +11,26 @@ import java.security.cert.Certificate;
 public interface CertificateGenerator 
 {
 	/**
-	 * Get the configuration file. (containing certificate information).
+	 * Get the keyPair used for the certificate.
+	 * @author Sébastien Pelletier
+	 */
+	public KeyPair getKeysPair() throws Exception;
+
+	/**
+	 * Get the Keystore password
+	 * @author Sébastien Pelletier
+	 */
+	public String getKsPassword() throws Exception;
+	
+	/**
+	 * Set the configuration file. (containing certificate information).
 	 * @param file Path to the configuration file.
 	 * @author Sébastien Pelletier
 	 */
 	public void setConfigFile(String file) throws Exception;
 
 	/**
-	 * Get the keyPair used for the certificate.
+	 * Initalization of datas from file.
 	 * @author Sébastien Pelletier
 	 */
 	public void initDatas() throws Exception;
@@ -34,6 +46,13 @@ public interface CertificateGenerator
 	 * @author Sébastien Pelletier
 	 */
 	public Certificate[] CreateChainCertificate() throws Exception;
+
+	/**
+	 * Store the created certificate in the specified file (keystore).
+	 * @param file_name The keystore file.
+	 * #Author Pelletier Sébastien
+	 */
+	public void StoreInKeystore(String file_name) throws Exception;
 
 
 }

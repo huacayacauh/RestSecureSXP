@@ -25,7 +25,7 @@ import java.io.*;
 public class X509V3Generator implements CertificateGenerator
 {
 	/**
-	 * Use this methode tu create an instance of X509V3Genertor.
+	 * Use this methode to create an instance of X509V3Genertor.
 	 * @param config_file Name of the file that will be used by the instance.
 	 */
 	static public X509V3Generator getInstance(String config_file) throws Exception
@@ -60,9 +60,9 @@ public class X509V3Generator implements CertificateGenerator
 
 
 	/**
-	 * Initalization of datas from file.
-	 * @author Sébastien Pelletier
+	 * {@inheritDoc}
 	 */
+	@Override
 	public KeyPair getKeysPair() throws Exception
 	{
 		if( !this.flag )
@@ -72,11 +72,11 @@ public class X509V3Generator implements CertificateGenerator
 		}
 		return key_pair;
 	}
-	
+
 	/**
-	 * Get the Keystore password
-	 * @author Sébastien Pelletier
+	 * {@inheritDoc}
 	 */
+	@Override
 	public String getKsPassword() throws Exception
 	{
 		return keystore_password;
