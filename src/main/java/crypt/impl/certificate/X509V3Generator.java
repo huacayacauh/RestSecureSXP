@@ -24,22 +24,6 @@ import org.shredzone.acme4j.Authorization;
 import org.shredzone.acme4j.Status;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import crypt.api.certificate.CertificateGenerator;
 
 import java.security.KeyStore;

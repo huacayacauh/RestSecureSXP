@@ -17,6 +17,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import com.google.common.reflect.ClassPath;
 
@@ -78,16 +79,21 @@ public class JettyRestServer implements RestServer{
 	@Override
 	public void start(int port) throws Exception {
 		server = new Server();
+		server.setHandler(context);
+		createAndSetConnector(80, "http");
+		server.start();
+
+		TimeUnit.SECONDS.sleep(2); //Give some time to Jetty to be on.
 
 		this.cert_gen = X509V3Generator.getInstance("certConfig.conf");
 		this.cert_gen.CreateCertificate("auto-signed");
-		//System.out.println("ici : " + this.cert_gen.CreateChainCertificate()[0] );
 		this.cert_gen.StoreInKeystore("keystore.jks");
 
-		
-		createAndSetConnector(port, "https");
-		server.setHandler(context);
-		
+		server.stop();
+		//ReStarting the serveur with good certificate.
+		createAndSetConnector(port, "DefaultPort:http&https");
+
+		//server.setHandler(context);
 		server.start();
       	server.join();
 	}
@@ -141,6 +147,36 @@ public class JettyRestServer implements RestServer{
 				
 				server.setConnectors(new Connector[] {https}); 
 				break;
+
+			case "DefaultPort:http&https":
+				// Http Connector
+				ServerConnector httpb = new ServerConnector(server, new HttpConnectionFactory(http_config) );
+				httpb.setPort(80);
+				httpb.setIdleTimeout(30000);
+
+				// SSL Context factory for HTTPS
+				SslContextFactory sslContextFactoryb = new SslContextFactory();
+				sslContextFactoryb.setKeyStorePath("./keystore.jks");
+				sslContextFactoryb.setKeyStorePassword(this.cert_gen.getKsPassword());
+				sslContextFactoryb.setKeyManagerPassword(this.cert_gen.getKsPassword());
+				
+				// HTTPS Config
+				HttpConfiguration https_configb = new HttpConfiguration(http_config);
+				SecureRequestCustomizer srcb = new SecureRequestCustomizer();
+				srcb.setStsMaxAge(2000);
+				srcb.setStsIncludeSubDomains(true);
+				https_configb.addCustomizer(srcb);
+				
+				// HTTPS Connector
+				ServerConnector httpsb = new ServerConnector(server,
+									 new SslConnectionFactory(sslContextFactoryb, HttpVersion.HTTP_1_1.asString()),
+									 new HttpConnectionFactory(https_configb));
+				httpsb.setPort(443);
+				httpsb.setIdleTimeout(500000);
+				
+				server.setConnectors(new Connector[] {httpb, httpsb}); 
+				break;
+				
 				
 			default: 
 				System.out.println("Wrong connector protocol for jetty.");
