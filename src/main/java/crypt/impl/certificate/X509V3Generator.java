@@ -24,6 +24,7 @@ import org.shredzone.acme4j.Authorization;
 import org.shredzone.acme4j.Status;
 
 
+
 import crypt.api.certificate.CertificateGenerator;
 
 import java.security.KeyStore;
@@ -260,7 +261,7 @@ public class X509V3Generator implements CertificateGenerator
 		else if( signature == "signed" )
 		{
 			//Provider custom
-
+			
 			Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
 			//Keys (priv & public) generation.
@@ -317,9 +318,9 @@ public class X509V3Generator implements CertificateGenerator
 			{
 				System.exit(0);
 			}
-
+			System.out.println("challenge created");
 			challenge.trigger();
-	
+			
 			int attempts = 10;
 			while (challenge.getStatus() != Status.VALID && attempts-- > 0) 
 			{
@@ -343,7 +344,7 @@ public class X509V3Generator implements CertificateGenerator
 				System.out.println("Failed to pass the challenge... Giving up.");
 				System.exit(0);
 			}
-
+			System.out.println("challenge acepté");
 			// Generate a CSR for the domain
 			CSRBuilder csrb = new CSRBuilder();
 			csrb.addDomains(domain_name);//peut etre une collection de string
@@ -354,10 +355,7 @@ public class X509V3Generator implements CertificateGenerator
 
 			// Download the certificate chain
 			X509Certificate[] chain = certificate.downloadChain();
-			try (FileWriter fw = new FileWriter("certificat")) 
-			{
-				CertificateUtils.writeX509CertificateChain(chain, fw);
-			}
+			this.cert = chain[0];
 		}
 
 		return this.cert;
@@ -384,6 +382,7 @@ public boolean acceptAgreement(Registration reg, URI agreement) throws AcmeExcep
 
 public Challenge httpChallenge(Authorization auth, String domain) throws AcmeException 
 {
+
 	// Find a single http-01 challenge
 	Http01Challenge challenge = auth.findChallenge(Http01Challenge.TYPE);
 	if (challenge == null) 
@@ -392,6 +391,17 @@ public Challenge httpChallenge(Authorization auth, String domain) throws AcmeExc
 		return null;
 	}
 
+	try
+	{
+		FileWriter file = new FileWriter(new File("." + challenge.getToken() ));
+		file.write (challenge.getAuthorization());
+		file.close();
+	}
+	catch(IOException exp )
+	{
+		System.out.println("error");
+	}
+	
 	// Output the challenge, wait for acknowledge...
 	System.out.println("Please create a file in your web server's base directory.");
 	System.out.println("It must be reachable at: http://" + domain_name + "/.well-known/acme-challenge/" + challenge.getToken());

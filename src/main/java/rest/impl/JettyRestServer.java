@@ -83,10 +83,12 @@ public class JettyRestServer implements RestServer{
 		createAndSetConnector(80, "http");
 		server.start();
 
-		TimeUnit.SECONDS.sleep(2); //Give some time to Jetty to be on.
+		TimeUnit.SECONDS.sleep(3); //Give some time to Jetty to be on.
 
 		this.cert_gen = X509V3Generator.getInstance("certConfig.conf");
 		this.cert_gen.CreateCertificate("auto-signed");
+		//this.cert_gen.CreateCertificate("signed");
+
 		this.cert_gen.StoreInKeystore("keystore.jks");
 
 		server.stop();
