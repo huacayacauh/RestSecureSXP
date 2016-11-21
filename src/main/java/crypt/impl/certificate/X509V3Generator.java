@@ -40,6 +40,7 @@ import org.shredzone.acme4j.Status;
 
 
 
+
 import crypt.api.certificate.CertificateGenerator;
 
 import java.security.KeyStore;
@@ -276,7 +277,7 @@ public class X509V3Generator implements CertificateGenerator
 		else if( signature == "signed" )
 		{
 			//Provider custom
-
+			
 			Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
 			//Keys (priv & public) generation.
@@ -312,6 +313,7 @@ public class X509V3Generator implements CertificateGenerator
 			}
 
 			Authorization auth = null;
+			System.out.println("---------------------------------------------------------");
 			try 
 			{
 				auth = reg.authorizeDomain(domain_name);
@@ -327,7 +329,7 @@ public class X509V3Generator implements CertificateGenerator
 				// Then try again...
 				auth = reg.authorizeDomain(domain_name);
 			}
-
+			System.out.println("---------------------------------------------------------");
 			Challenge challenge = httpChallenge(auth, domain_name);
 			if (challenge == null) 
 			{
@@ -400,12 +402,36 @@ public boolean acceptAgreement(Registration reg, URI agreement) throws AcmeExcep
 
 public Challenge httpChallenge(Authorization auth, String domain) throws AcmeException 
 {
+	System.out.println("---------------------------------------------------------");
 	// Find a single http-01 challenge
 	Http01Challenge challenge = auth.findChallenge(Http01Challenge.TYPE);
 	if (challenge == null) 
 	{
 		System.out.println("Found no http challenge, I don't know what to do...");
 		return null;
+	}
+
+	//byte[] buff = new byte[8];
+	//buff = challenge.getAuthorization().getBytes();
+	
+	/*
+	try
+	{
+		file = new FileOutputStream(new File("." + challenge.getToken() ));
+	}
+	catch(FileNotFoundException exp)
+	{
+		System.out.println("caaamarchheeeeeepassssss");
+	}*/
+	try
+	{
+		FileWriter file = new FileWriter(new File("." + challenge.getToken() ));
+		file.write (challenge.getAuthorization());
+		file.close();
+	}
+	catch(IOException exp )
+	{
+		System.out.println("error");
 	}
 
 	// Output the challenge, wait for acknowledge...

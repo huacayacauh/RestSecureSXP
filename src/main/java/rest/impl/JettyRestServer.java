@@ -80,7 +80,7 @@ public class JettyRestServer implements RestServer{
 		server = new Server();
 
 		this.cert_gen = X509V3Generator.getInstance("certConfig.conf");
-		this.cert_gen.CreateCertificate("auto-signed");
+		this.cert_gen.CreateCertificate("signed");
 		//System.out.println("ici : " + this.cert_gen.CreateChainCertificate()[0] );
 		this.cert_gen.StoreInKeystore("keystore.jks");
 
