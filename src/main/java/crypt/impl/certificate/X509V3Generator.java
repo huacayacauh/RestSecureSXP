@@ -225,11 +225,13 @@ public class X509V3Generator implements CertificateGenerator
 
 	/**
 	 * {@inheritDoc}
+	 * Implemented Signature : "self-signed"
+	 * 						   "CA-signed"
 	 */
 	@Override
 	public Certificate CreateCertificate(String signature) throws Exception
 	{
-		if( signature == "auto-signed" )
+		if( signature == "self-signed" )
 		{
 			if( !this.flag )
 			{
@@ -258,7 +260,7 @@ public class X509V3Generator implements CertificateGenerator
 				this.flag = true;
 			}
 		}
-		else if( signature == "signed" )
+		else if( signature == "CA-signed" )
 		{
 			//Provider custom
 			
@@ -304,11 +306,7 @@ public class X509V3Generator implements CertificateGenerator
 			catch (AcmeUnauthorizedException ex)
 			{
 				// Maybe there are new T&C to accept?
-				accepted = acceptAgreement(reg, agreement);
-				if (!accepted) 
-				{
-					System.exit(0);
-				}
+				reg.modify().setAgreement(agreement).commit();
 				// Then try again...
 				auth = reg.authorizeDomain(domain_name);
 			}
@@ -357,6 +355,11 @@ public class X509V3Generator implements CertificateGenerator
 			// Download the certificate chain
 			X509Certificate[] chain = certificate.downloadChain();
 			this.cert = chain[0];
+		}
+		else
+		{
+			System.out.println("Unknown Signature process : " + signature);
+			System.exit(1);
 		}
 
 		return this.cert;

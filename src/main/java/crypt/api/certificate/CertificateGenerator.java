@@ -37,7 +37,9 @@ public interface CertificateGenerator
 	
 	/**
 	 * Create the certificate and keys for it.
-	 * @author Sébastien Pelletier
+	 * @param Signature specifie what signature you want.
+	 * @return Return the newly created certificate.
+	 * @author Sébastien Pelletier, Antoine Boudermine
 	 */
 	public Certificate CreateCertificate(String signature) throws Exception;
 

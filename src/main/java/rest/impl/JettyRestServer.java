@@ -78,27 +78,38 @@ public class JettyRestServer implements RestServer{
 	 */
 	@Override
 	public void start(int port) throws Exception {
+
 		server = new Server();
 		server.setHandler(context);
-		createAndSetConnector(80, "http");
-		server.start();
 
-		TimeUnit.SECONDS.sleep(3); //Give some time to Jetty to be on.
+		String signe_type = "self-signed";
 
-		System.out.println("aprés le sleep------------------------------------------------------");
+		if( signe_type == "CA-signed" )
+		{
+			//Launching a simple http on 80 port for challange
+			//the CA serveur.
+			createAndSetConnector(80, "http"); //Launch in sudo bc of 80;
+			server.start();
 
-		this.cert_gen = X509V3Generator.getInstance("certConfig.conf");
-		this.cert_gen.CreateCertificate("signed");
-		//this.cert_gen.CreateCertificate("signed");
+			TimeUnit.SECONDS.sleep(3); //Give some time to Jetty to be on.
 
-		this.cert_gen.StoreInKeystore("keystore.jks");
+			this.cert_gen = X509V3Generator.getInstance("certConfig.conf");
+			this.cert_gen.CreateCertificate("CA-signed");
+			this.cert_gen.StoreInKeystore("keystore.jks");
 
-		server.stop();
-		System.out.println("aprés le stop------------------------------------------------------");
-		//ReStarting the serveur with good certificate.
-		createAndSetConnector(port, "DefaultPort:http&https");
+			//Restarting the serveur with good certificate.
+			server.stop();
+			createAndSetConnector(port, "https");
+			//server.setHandler(context);
+		}
+		else if( signe_type == "self-signed" )
+		{
+			this.cert_gen = X509V3Generator.getInstance("certConfig.conf");
+			this.cert_gen.CreateCertificate("self-signed");
+			this.cert_gen.StoreInKeystore("keystore.jks");
+			createAndSetConnector(port, "https");
+		}
 
-		//server.setHandler(context);
 		server.start();
       	server.join();
 	}
@@ -153,10 +164,10 @@ public class JettyRestServer implements RestServer{
 				server.setConnectors(new Connector[] {https}); 
 				break;
 
-			case "DefaultPort:http&https":
+			case "http&https":
 				// Http Connector
 				ServerConnector httpb = new ServerConnector(server, new HttpConnectionFactory(http_config) );
-				httpb.setPort(80);       // ici ca dervrait etre port en param pas 80
+				httpb.setPort(port);
 				httpb.setIdleTimeout(30000);
 
 				// SSL Context factory for HTTPS
@@ -176,7 +187,7 @@ public class JettyRestServer implements RestServer{
 				ServerConnector httpsb = new ServerConnector(server,
 									 new SslConnectionFactory(sslContextFactoryb, HttpVersion.HTTP_1_1.asString()),
 									 new HttpConnectionFactory(https_configb));
-				httpsb.setPort(443);
+				httpsb.setPort(port+1);
 				httpsb.setIdleTimeout(500000);
 				
 				server.setConnectors(new Connector[] {httpb, httpsb}); 
