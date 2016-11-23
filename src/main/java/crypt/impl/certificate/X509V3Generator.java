@@ -324,6 +324,7 @@ public class X509V3Generator implements CertificateGenerator
 			int attempts = 10;
 			while (challenge.getStatus() != Status.VALID && attempts-- > 0) 
 			{
+				System.out.println(attempts);
 				if (challenge.getStatus() == Status.INVALID) 
 				{
 					System.out.println("Challenge failed... Giving up.");
@@ -364,6 +365,7 @@ public class X509V3Generator implements CertificateGenerator
 
 public boolean acceptAgreement(Registration reg, URI agreement) throws AcmeException 
 {
+	/*
 	int option = JOptionPane.showConfirmDialog(null,
                  "Do you accept the Terms of Service?\n\n" + agreement,
                  "Accept T&C",
@@ -374,7 +376,7 @@ public boolean acceptAgreement(Registration reg, URI agreement) throws AcmeExcep
         System.out.println("User did not accept Terms of Service");
         return false;
     }
-
+	*/
     reg.modify().setAgreement(agreement).commit();
     
     return true;

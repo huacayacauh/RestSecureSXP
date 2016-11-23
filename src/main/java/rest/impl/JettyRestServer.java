@@ -85,13 +85,16 @@ public class JettyRestServer implements RestServer{
 
 		TimeUnit.SECONDS.sleep(3); //Give some time to Jetty to be on.
 
+		System.out.println("aprés le sleep------------------------------------------------------");
+
 		this.cert_gen = X509V3Generator.getInstance("certConfig.conf");
-		this.cert_gen.CreateCertificate("auto-signed");
+		this.cert_gen.CreateCertificate("signed");
 		//this.cert_gen.CreateCertificate("signed");
 
 		this.cert_gen.StoreInKeystore("keystore.jks");
 
 		server.stop();
+		System.out.println("aprés le stop------------------------------------------------------");
 		//ReStarting the serveur with good certificate.
 		createAndSetConnector(port, "DefaultPort:http&https");
 
@@ -153,7 +156,7 @@ public class JettyRestServer implements RestServer{
 			case "DefaultPort:http&https":
 				// Http Connector
 				ServerConnector httpb = new ServerConnector(server, new HttpConnectionFactory(http_config) );
-				httpb.setPort(80);
+				httpb.setPort(80);       // ici ca dervrait etre port en param pas 80
 				httpb.setIdleTimeout(30000);
 
 				// SSL Context factory for HTTPS
