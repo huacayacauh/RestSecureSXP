@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Wed Nov 30 14:47:00 CET 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0158-b57d-0a51-00001bf728b3 
+on database directory /amuhome/p16008311/PRIV/M1/GL/RestSecureSXP/.db-8081/simpleDb with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/amuhome/p16008311/.gradle/caches/modules-2/files-2.1/org.apache.derby/derby/10.12.1.1/75070c744a8e52a7d17b8b476468580309d5cd09/derby-10.12.1.1.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_92-b14
+user.dir=/amuhome/p16008311/PRIV/M1/GL/RestSecureSXP
+os.name=Linux
+os.arch=amd64
+os.version=3.16.0-4-amd64
+derby.system.home=./.db-8081/
+Database Class Loader started - derby.database.classpath=''
